@@ -25,7 +25,7 @@ const AchievementCard = ({ achievement }: AchievementCardProps) => {
       </CardHeader>
 
       <CardContent>
-        <p className="text-sm text-muted-foreground mb-4">{dayjs(date).format('HH:mm')}</p>
+        <p className="text-sm text-muted-foreground mb-4">{dayjs(date).format('h:mm A')}</p>
         <p className="text-sm mb-2">{description}</p>
 
         {tags && tags.length > 0 && (
