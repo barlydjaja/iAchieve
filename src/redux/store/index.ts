@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import countReducer from '../reducers/count';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+import achievementsReducer from '../reducers/achievements';
 
 const persistConfig = {
   key: 'root',
@@ -10,7 +10,7 @@ const persistConfig = {
 };
 
 const combinedReducers = combineReducers({
-  count: countReducer,
+  achievements: achievementsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

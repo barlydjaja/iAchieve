@@ -1,35 +1,67 @@
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import { useSelector, useDispatch } from 'react-redux';
-import { increment, selectCount } from './redux/reducers/count';
+import AchievementCard from 'components/AchievementCard';
+import AchievementFilter from 'components/AchievementFilter';
+import TagFilter from 'components/TagFilter';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAchievements, selectSearchQuery, selectSelectedTag, selectSortOrder, setAllTags } from 'redux/reducers/achievements';
 
 function App() {
-  const count = useSelector(selectCount);
   const dispatch = useDispatch();
+  const achievements = useSelector(selectAchievements);
+  const searchQuery = useSelector(selectSearchQuery);
+  const selectedTag = useSelector(selectSelectedTag);
+  const sortOrder = useSelector(selectSortOrder);
+
+  const filteredAchievements = useMemo(() => achievements
+    .filter((achievement) => {
+      // Search filter
+      const matchesSearch =
+        achievement.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        achievement.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+      // Tag filter
+      const matchesTag = !selectedTag || (achievement.tags && achievement.tags.includes(selectedTag));
+
+      return matchesSearch && matchesTag;
+    })
+    .sort((a, b) => {
+      return sortOrder === 'newest' ? (b.date - a.date) : (a.date - b.date);
+    })
+  , [achievements, searchQuery, selectedTag, sortOrder]);
+
+  useEffect(() => {
+    dispatch(setAllTags(Array.from(new Set(achievements.flatMap((achievement) => achievement.tags || [])))));
+  }, [achievements, dispatch]);
+
+  const renderAchievements = useMemo(() => {
+    if (achievements.length === 0) {
+      return (
+        <div className="text-center py-12 text-muted-foreground">
+          No achievements yet. Add your first achievement!
+        </div>
+      );
+    }
+
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {filteredAchievements.map((achievement) => (
+          <AchievementCard
+            key={achievement.id}
+            achievement={achievement}
+          />
+        ))}
+      </div>
+    );
+  }, [achievements.length, filteredAchievements]);
 
   return (
-    <div className="min-h-dvh">
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => dispatch(increment())}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <main className="container mx-auto py-6 px-4 max-w-5xl min-h-dvh">
+      <h1 className="text-3xl font-bold mb-6">Achievement Tracker</h1>
+
+      <AchievementFilter/>
+      <TagFilter/>
+      {renderAchievements}
+    </main>
   );
 }
 
