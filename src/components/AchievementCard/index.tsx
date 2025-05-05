@@ -39,7 +39,6 @@ const AchievementCard = ({ achievement }: AchievementCardProps) => {
         )}
       </CardContent>
 
-      {/* TODO: use dayjs */}
       <CardFooter className="pt-0 text-xs text-muted-foreground">
         Achieved {dayjs(date).fromNow()}
       </CardFooter>
