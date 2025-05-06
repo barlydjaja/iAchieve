@@ -2,6 +2,8 @@
 
 iAchieve is a an achievement tracker app. Connected to SG Weather API so that you can be reminded of the day of your achievements
 
+### Checkout the Demo [here](https://master.d18ihb3cgjh6u6.amplifyapp.com)
+
 ## Philosophy of the logo
 ![hello](./public/iAchieve.png)
 
