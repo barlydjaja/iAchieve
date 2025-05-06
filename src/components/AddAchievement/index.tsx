@@ -37,7 +37,7 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
 
   const { hour, timeOfDay } = useMemo(() => parseTime(achievementForm.time), [achievementForm.time]);
 
-  const weatherTimestamp = useMemo(() => dayjs(`${achievementForm.date} ${achievementForm.time}`).format(weatherInfoDateFormat), [achievementForm.date, achievementForm.time]);
+  const weatherTimestamp = useMemo(() => dayjs(`${achievementForm.date} ${hour}:00 ${timeOfDay}`).format(weatherInfoDateFormat), [achievementForm.date, achievementForm.time]);
 
   const resetForm = useCallback(() => {
     setAchievementForm({
@@ -63,6 +63,7 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
   };
 
   const handleAdd = () => {
+    console.log({ achievementForm });
     const payload: Achievement = {
       id: achievement?.id || uuidv4(),
       title: achievementForm.title,
@@ -84,12 +85,6 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    if (!open) {
-      resetForm();
-    }
-  }, [open, resetForm]);
-
   const handleDateChange = (date: string) => {
     setAchievementForm({ ...achievementForm, date });
   };
@@ -101,6 +96,12 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
   const handleLocationSelect = (station: CombinedWeatherInfo) => {
     setAchievementForm({ ...achievementForm, location: station });
   };
+
+  useEffect(() => {
+    if (!open) {
+      resetForm();
+    }
+  }, [open, resetForm]);
 
   const renderDialogTrigger = useMemo(() => {
     if (achievement) {
