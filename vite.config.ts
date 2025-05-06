@@ -17,7 +17,4 @@ export default defineConfig({
       warnIgnored: true,
     }),
   ],
-  build: {
-    outDir: 'build',
-  },
 });
