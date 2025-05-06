@@ -63,7 +63,6 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
   };
 
   const handleAdd = () => {
-    console.log({ achievementForm });
     const payload: Achievement = {
       id: achievement?.id || uuidv4(),
       title: achievementForm.title,
