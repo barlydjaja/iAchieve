@@ -26,7 +26,7 @@ iAchieve is a an achievement tracker app. Connected to SG Weather API so that yo
 - `src/page/*` – Main page components and routing
 - `src/page/components/*` – Page-specific components
 - `src/redux/*` – Redux store, slices, and middleware
-- `src/routes/*` – Route definitions and navigation
+- `src/types/*` – Shared types or interfaces accross the app
 
 ## 🖥️ Features
 - **Realtime Data Fetch:** Data Fetch to sg weather api
