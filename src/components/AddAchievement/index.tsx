@@ -37,7 +37,7 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
 
   const { hour, timeOfDay } = useMemo(() => parseTime(achievementForm.time), [achievementForm.time]);
 
-  const weatherTimestamp = useMemo(() => dayjs(`${achievementForm.date} ${hour}:00 ${timeOfDay}`).format(weatherInfoDateFormat), [achievementForm.date, achievementForm.time]);
+  const weatherTimestamp = useMemo(() => dayjs(`${achievementForm.date} ${achievementForm.time}`).format(weatherInfoDateFormat), [achievementForm.date, achievementForm.time]);
 
   const resetForm = useCallback(() => {
     setAchievementForm({
