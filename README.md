@@ -49,5 +49,10 @@ iAchieve is a an achievement tracker app. Connected to SG Weather API so that yo
    yarn build
    ```
 
-## 🌐 Environment Variables
-Set the following in your `.env` file for social/contact links and any API keys:
+## 🛠️ Future Improvements
+* Filter by specific date
+* Inifity scroll achievements
+* Add map of the location longitude & latitude
+* Multipe chips selection
+* Add party popper on creating the first achievements
+* Add a walkthrough guide on first time user join
