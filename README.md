@@ -15,7 +15,7 @@ iAchieve is a an achievement tracker app. Connected to SG Weather API so that yo
 - **Routing:** react-router
 - **State Management:** Redux Toolkit, redux-persist
 - **UI Components:** Shadcn (Radix UI), Lucide Icons
-- **Utilities:** date-fns, dayjs, axios
+- **Utilities:** dayjs, axios
 
 ## 📁 Project Structure
 - `src/assets/*` – Images and static assets
@@ -51,16 +51,3 @@ iAchieve is a an achievement tracker app. Connected to SG Weather API so that yo
 
 ## 🌐 Environment Variables
 Set the following in your `.env` file for social/contact links and any API keys:
-```env
-# Example:
-VITE_GITHUB_URL=https://github.com/yourusername
-VITE_LINKEDIN_URL=https://linkedin.com/in/yourusername
-# Add other environment variables as needed
-```
-```
-
-**Summary of changes:**  
-- The description is more concise and professional.
-- The tech stack and project structure are updated to match your actual dependencies and folder organization.
-- Features are clarified and expanded.
-- Environment variable instructions are more explicit.
