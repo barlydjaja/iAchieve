@@ -1,9 +1,9 @@
-import { Achievement } from 'redux/reducers/achievements';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from 'components/ui/card';
 import { Badge } from 'components/ui/badge';
 import AddAchievement from 'components/AddAchievement';
 import DeleteAchievement from 'components/DeleteAchievement';
 import dayjs from 'dayjs';
+import { Achievement } from 'types/achievement';
 
 interface AchievementCardProps {
   achievement: Achievement;
@@ -25,7 +25,19 @@ const AchievementCard = ({ achievement }: AchievementCardProps) => {
       </CardHeader>
 
       <CardContent>
-        <p className="text-sm text-muted-foreground mb-4">{dayjs(date).format('h:mm A')}</p>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4 flex-wrap">
+          <span>{dayjs(date).format('h:mm A')}</span>
+          {achievement.location && (
+            <>
+              <span>•</span>
+              <span>{achievement.location.name}</span>
+              <span>•</span>
+              <span className="text-blue-600">{achievement.location.temperature}°C</span>
+              <span>•</span>
+              <span className="text-green-600">{achievement.location.humidity}%</span>
+            </>
+          )}
+        </div>
         <p className="text-sm mb-2">{description}</p>
 
         {tags && tags.length > 0 && (

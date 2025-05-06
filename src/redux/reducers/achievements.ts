@@ -1,13 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
-
-export interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  date: number;
-  tags?: string[];
-}
+import { Achievement } from 'types/achievement';
 
 interface AchievementsState {
   achievements: Achievement[];
@@ -31,6 +24,12 @@ export const achievementsSlice = createSlice({
   reducers: {
     addAchievement: (state, action) => {
       state.achievements.push(action.payload);
+    },
+    updateAchievement: (state, action) => {
+      const index = state.achievements.findIndex((achievement) => achievement.id === action.payload.id);
+      if (index !== -1) {
+        state.achievements[index] = action.payload;
+      }
     },
     deleteAchievement: (state, action) => {
       state.achievements = state.achievements.filter((achievement) => achievement.id !== action.payload);
@@ -56,6 +55,6 @@ export const selectSortOrder = (state: RootState) => state.achievements.sortOrde
 export const selectSelectedTag = (state: RootState) => state.achievements.selectedTag;
 export const selectAllTags = (state: RootState) => state.achievements.allTags;
 
-export const { addAchievement, deleteAchievement, setSearchQuery, setSortOrder, setSelectedTag, setAllTags } = achievementsSlice.actions;
+export const { addAchievement, updateAchievement, deleteAchievement, setSearchQuery, setSortOrder, setSelectedTag, setAllTags } = achievementsSlice.actions;
 
 export default achievementsSlice.reducer;

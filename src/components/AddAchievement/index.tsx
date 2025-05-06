@@ -4,11 +4,19 @@ import { Input } from 'components/ui/input';
 import { Label } from 'components/ui/label';
 import { Textarea } from 'components/ui/textarea';
 import { Edit, PlusCircle } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Achievement, addAchievement } from 'redux/reducers/achievements';
+import { addAchievement, updateAchievement } from 'redux/reducers/achievements';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
+import AchievementCalendarPicker from 'components/AchievementCalendarPicker';
+import { dateFormat, timeFormat, weatherInfoDateFormat } from 'constant/dateFormat';
+import { Achievement, TimeOfDay } from 'types/achievement';
+import AchievementTimePicker from 'components/AchievementTimePicker';
+import { parseTime } from 'lib/utils';
+import LocationSelector from 'components/LocationSelector';
+import { CombinedWeatherInfo } from 'types/weatherInfo';
+
 interface AddAchievementProps {
   achievement?: Achievement;
 }
@@ -21,33 +29,77 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
   const [achievementForm, setAchievementForm] = useState({
     title: achievement?.title || '',
     description: achievement?.description || '',
-    date: achievement?.date ? dayjs(achievement.date).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
-    time: achievement?.date ? dayjs(achievement.date).format('HH:mm') : dayjs().format('HH:mm'),
+    date: dayjs(achievement?.date).format(dateFormat),
+    time: dayjs(achievement?.date).format(timeFormat),
     tags: achievement?.tags || [],
+    location: achievement?.location,
   });
 
-  const resetForm = () => {
+  const { hour, timeOfDay } = useMemo(() => parseTime(achievementForm.time), [achievementForm.time]);
+
+  const weatherTimestamp = useMemo(() => dayjs(`${achievementForm.date} ${achievementForm.time}`).format(weatherInfoDateFormat), [achievementForm.date, achievementForm.time]);
+
+  const resetForm = useCallback(() => {
     setAchievementForm({
       title: achievement?.title || '',
       description: achievement?.description || '',
-      date: achievement?.date ? dayjs(achievement.date).format('YYYY-MM-DD') : dayjs().format('YYYY-MM-DD'),
-      time: achievement?.date ? dayjs(achievement.date).format('HH:mm') : dayjs().format('HH:mm'),
+      date: dayjs(achievement?.date).format(dateFormat),
+      time: dayjs(achievement?.date).format(timeFormat),
       tags: achievement?.tags || [],
+      location: achievement?.location,
     });
-  };
+  }, [achievement]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleUpdate = () => {
     const payload: Achievement = {
       id: achievement?.id || uuidv4(),
       title: achievementForm.title,
       description: achievementForm.description,
       date: +dayjs(`${achievementForm.date} ${achievementForm.time}`),
       tags: achievementForm.tags,
+      location: achievementForm.location,
+    };
+    dispatch(updateAchievement(payload));
+  };
+
+  const handleAdd = () => {
+    const payload: Achievement = {
+      id: achievement?.id || uuidv4(),
+      title: achievementForm.title,
+      description: achievementForm.description,
+      date: +dayjs(`${achievementForm.date} ${achievementForm.time}`),
+      tags: achievementForm.tags,
+      location: achievementForm.location,
     };
     dispatch(addAchievement(payload));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!achievement) {
+      handleAdd();
+    } else {
+      handleUpdate();
+    }
     setOpen(false);
-    resetForm();
+  };
+
+  useEffect(() => {
+    if (!open) {
+      resetForm();
+    }
+  }, [open, resetForm]);
+
+  const handleDateChange = (date: string) => {
+    setAchievementForm({ ...achievementForm, date });
+  };
+
+  const handleTimeChange = (hour: number, timeOfDay: TimeOfDay) => {
+    setAchievementForm({ ...achievementForm, time: `${hour}:00 ${timeOfDay}` });
+  };
+
+  const handleLocationSelect = (station: CombinedWeatherInfo) => {
+    setAchievementForm({ ...achievementForm, location: station });
   };
 
   const renderDialogTrigger = useMemo(() => {
@@ -104,13 +156,18 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="date">Date</Label>
-              <Input id="date" type="date" value={achievementForm.date} onChange={(e) => {setAchievementForm({ ...achievementForm, date: e.target.value }); console.log(e.target.value);}} required />
+              <AchievementCalendarPicker date={achievementForm.date} onChange={handleDateChange}/>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="time">Time</Label>
-              <Input id="time" type="time" value={achievementForm.time} onChange={(e) => {setAchievementForm({ ...achievementForm, time: e.target.value }); console.log(e.target.value);}} />
+              <AchievementTimePicker selectedHour={hour} selectedTimeOfDay={timeOfDay} onChange={handleTimeChange} />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Location</Label>
+            <LocationSelector weatherTimestamp={weatherTimestamp} dialogOpened={open} onSelect={handleLocationSelect} selectedLabel={achievementForm.location?.name} />
           </div>
 
           <div className="space-y-2">

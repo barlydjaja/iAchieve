@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
-import achievementsReducer from '../reducers/achievements';
+import achievementsReducer from 'redux/reducers/achievements';
 
 const persistConfig = {
   key: 'root',
