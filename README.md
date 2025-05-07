@@ -18,7 +18,7 @@ User Stories
 2. As an achiever, I want to edit or delete past achievements that I enter wrongly.
 3. As an achiever, I want to sort and filter my achievements based on date and tags.
 4. As an achiever, I want to search for a specific achievement.
-5. As an achiever, I want to view my achievements with temperature and humidity to provide more context so that I can be reminded of the day. (lol)
+5. As an achiever, I want to view my achievements with temperature and humidity to provide more context so that I can be reminded of the day.
 
 ### Checkout the Demo [here](https://master.d18ihb3cgjh6u6.amplifyapp.com)
 
