@@ -132,7 +132,7 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
 
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title" className="gap-0.5">Title<span className="text-red-500">*</span></Label>
             <Input
               id="title"
               value={achievementForm.title}
@@ -143,7 +143,7 @@ const AddAchievement = ({ achievement }: AddAchievementProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" className="gap-0.5">Description<span className="text-red-500">*</span></Label>
             <Textarea
               id="description"
               value={achievementForm.description}
