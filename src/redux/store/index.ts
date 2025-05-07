@@ -3,6 +3,7 @@ import logger from 'redux-logger';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import achievementsReducer from 'redux/reducers/achievements';
+import darkModeReducer from 'redux/reducers/darkMode';
 
 const persistConfig = {
   key: 'root',
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const combinedReducers = combineReducers({
   achievements: achievementsReducer,
+  darkMode: darkModeReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combinedReducers);

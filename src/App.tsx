@@ -1,6 +1,7 @@
 import AchievementCard from 'components/AchievementCard';
 import AchievementFilter from 'components/AchievementFilter';
 import TagFilter from 'components/TagFilter';
+import ToggleDarkMode from 'components/ToggleDarkMode';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAchievements, selectSearchQuery, selectSelectedTag, selectSortOrder, setAllTags } from 'redux/reducers/achievements';
@@ -69,6 +70,7 @@ function App() {
       <AchievementFilter/>
       <TagFilter/>
       {renderAchievements}
+      <ToggleDarkMode/>
     </main>
   );
 }
