@@ -1,6 +1,24 @@
 # iAchieve
 
-iAchieve is a an achievement tracker app. Connected to SG Weather API so that you can be reminded of the day of your achievements
+## Task 
+1. Create an application to record achievements
+2. Each achievement should have the properties listed below
+3. App should minimally cover *User Stories* listed below
+4. Add environmental meta data to achievements - with GovData
+
+Achievement
++ Date achieved
++ Title
++ Description
++ Time of achievement
++ Temperature and Humidity info
+
+User Stories
+1. As an achiever, I want to record my achievements so that I can review them later.
+2. As an achiever, I want to edit or delete past achievements that I enter wrongly.
+3. As an achiever, I want to sort and filter my achievements based on date and tags.
+4. As an achiever, I want to search for a specific achievement.
+5. As an achiever, I want to view my achievements with temperature and humidity to provide more context so that I can be reminded of the day. (lol)
 
 ### Checkout the Demo [here](https://master.d18ihb3cgjh6u6.amplifyapp.com)
 
@@ -55,3 +73,4 @@ iAchieve is a an achievement tracker app. Connected to SG Weather API so that yo
 * Multipe chips selection
 * Add party popper on creating the first achievements
 * Add a walkthrough guide on first time user join
+* Use axios interceptors to add baseUrl, request, & response
